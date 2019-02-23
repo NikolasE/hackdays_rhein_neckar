@@ -1,0 +1,33 @@
+
+This directory contains a dockerized script to compute a distance matrix through the HERE-API.
+
+If run locally, pip install the requirements. The scripts expects the following files in the data-repository:
+
+keys.yaml: 
+  Contains the app_id and app_code which can be generated for free(!) on the HERE-Website. (so please get your own)
+
+positions.csv:
+  Contains a list of labels and coordinates, should look like this (if you are around Germany)
+
+id_0, 51.099399, 14.671359
+id_1, 51.099552, 14.671325
+id_2, 52.298212, 9.635192
+id_3, 48.999396, 9.500320
+id_4, 48.999558, 9.500395
+id_5, 50.068284, 8.632652
+
+(If you wonder, these are positions of elevators operated by Deutsche Bahn, so some of those are very close to each other) 
+
+The scripts computes all distances (assuming symmetric distances) for a travel by car without traffic. 
+
+
+If you do not want to install the dependencies (it's only yaml and request...), you can build the container via
+
+
+docker build --tag=distance .  (in the base directory)
+
+and execute it like this:
+
+docker run -v  /home/engelhard/Documents/distance_matrix_docker/data:/data    -u `id -u $USER` distance
+
+the '-v' part passes the data directory into the container and the '-u' ensures that the generated output file belongs to the current user instread of root. 
